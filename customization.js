@@ -1,103 +1,117 @@
 const os = require("os");
-const packageJson = require("./package.json"); // Get package details
+let packageJson = { name: "xproverce-md-main", version: "2" };
+try {
+  packageJson = require("./package.json"); // Optional package details
+} catch (e) {}
+
+const BRAND = "XPRO BOT";
+const PRODUCT = "𝙓𝙋𝙍𝙊𝙑𝙚𝙧𝙘𝙚 𝙈𝘿 𝙈𝙖𝙞𝙣";
+const SITE = "xpro-verce.site";
+
+function ownerName(config = {}) {
+  return config.OWNER_NAME || config.OWNERNAME || config.MNAME || "MR.RASHMIKA";
+}
+
+function memoryUsage() {
+  return `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB`;
+}
+
+function hostName(osInfo = os) {
+  return typeof osInfo.hostname === "function" ? osInfo.hostname() : os.hostname();
+}
+
+function footer() {
+  return `• © ${PRODUCT}
+• ᵂᵃᵇᵒᵗ ᴮʸ ˣᴾᴿᴼᵛᵉʳᶜᵉ ᵀᴱᴬᴹ ᴢ
+• *⛦* ${SITE}`;
+}
+
+function box(title, lines = []) {
+  return [`• *╭─「 ${title} 」*`, ...lines.map((line) => `*┆*✯ ${line}`), "• *╰──────────●●►*", footer()].join("\n");
+}
 
 module.exports = {
   //====================menu=================================
   MENUMSG: function (pushname, config) {
-    return `
-${this.BOTNAME}
-> 𝙷𝚎𝚕𝚕𝚘 𝚃𝚑𝚎𝚛𝚎 *${pushname}*
-> ==========================
-> ♠ 𝙾𝚠𝚗𝚎𝚛  : ${config.OWNER_NAME}
-> ♠ 𝙼𝚎𝚖    : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require("os").totalmem / 1024 / 1024)}MB
-> ==========================`.trim();
+    return box(`🚀 ${BRAND}`, [
+      `👋 Hello *${pushname || "User"}*`,
+      `✅ Everything looks good.`,
+      `👤 *\`owner\`*: *${ownerName(config)}*`,
+    ]);
   },
   //======================download============================
-  TIKTOK: function (datas,pushname, q) {
-    return `
-${this.BOTNAME}
-> 𝙷𝚎𝚕𝚕𝚘 𝚃𝚑𝚎𝚛𝚎 *${pushname}*
-> [ T I K T O K  D L ]
-> ========================
-> * Title  * ${datas.title}
-> * Author * ${datas.author}
-> * URL    * ${q}
-> ========================`.trim();
+  TIKTOK: function (datas, pushname, q) {
+    return box("⬇️ TIKTOK DL", [
+      `👋 Hello *${pushname || "User"}*`,
+      `*\`title\`*: *${datas.title}*`,
+      `*\`author\`*: *${datas.author}*`,
+      `*\`url\`*: ${q}`,
+    ]);
   },
-  FACEBOOK: function (title,pushname, q) {
-    return `
-${this.BOTNAME}
-> 𝙷𝚎𝚕𝚕𝚘 𝚃𝚑𝚎𝚛𝚎 *${pushname}*
-> [ F A C E B O O K  D L ]
-> =======================
-> *TITLE* - ${title}
-> *Url*   - ${q} 
-> =======================`.trim();
+  FACEBOOK: function (title, pushname, q) {
+    return box("⬇️ FACEBOOK DL", [
+      `👋 Hello *${pushname || "User"}*`,
+      `*\`title\`*: *${title}*`,
+      `*\`url\`*: ${q}`,
+    ]);
   },
   TWITTER: function (videoDescription, videoTitle, pushname, config) {
-    return `
-${this.BOTNAME || config.BOTNAME || "> [⚡ 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]"}
-> 𝙷𝚎𝚕𝚕𝚘 𝚃𝚑𝚎𝚛𝚎 *${pushname}*
-> [ T W I T T E R  D L ]
-> =======================
-> *Desc*  : ${videoDescription || "N/A"}
-> *Title* : ${videoTitle}
-> =======================`.trim();
+    return box("⬇️ TWITTER DL", [
+      `👋 Hello *${pushname || "User"}*`,
+      `*\`desc\`*: *${videoDescription || "N/A"}*`,
+      `*\`title\`*: *${videoTitle}*`,
+    ]);
   },
-  DIRECT: function(pushname,fileName,fileSize,fileType){
-    return `
-${this.BOTNAME}
-> 𝙷𝚎𝚕𝚕𝚘 𝚃𝚑𝚎𝚛𝚎 *${pushname}*      
-> [ D I R E C T  D L ]
-> =======================        
-> *File Name:* ${fileName}
-> *File Size:* ${fileSize}
-> *File Type:* ${fileType}
-> =======================`
+  DIRECT: function (pushname, fileName, fileSize, fileType) {
+    return box("⬇️ DIRECT DL", [
+      `👋 Hello *${pushname || "User"}*`,
+      `*\`file name\`*: *${fileName}*`,
+      `*\`file size\`*: *${fileSize}*`,
+      `*\`file type\`*: *${fileType}*`,
+    ]);
   },
-  MEDIAFIRE: function(pushname,data,fileSize){
-    return `
-${this.BOTNAME}
-> 𝙷𝚎𝚕𝚕𝚘 𝚃𝚑𝚎𝚛𝚎 *${pushname}*
-> [ M E D I A F I R A ]
-> ======================
-> *File Name:* ${data.title}
-> *File Size:* ${fileSize}
-> ======================`
+  MEDIAFIRE: function (pushname, data, fileSize) {
+    return box("⬇️ MEDIAFIRE DL", [
+      `👋 Hello *${pushname || "User"}*`,
+      `*\`file name\`*: *${data.title}*`,
+      `*\`file size\`*: *${fileSize}*`,
+    ]);
   },
-  APK: function(pushname,data,correctsize) {
-    return `
-${this.BOTNAME}
-> 𝙷𝚎𝚕𝚕𝚘 𝚃𝚑𝚎𝚛𝚎 *${pushname}*
-> [ A P K  D L ]
-> =======================
-> *Nᴀᴍᴇ :* ${data.datalist.list[0].name}
-> *Sɪᴢᴇ :* ${correctsize}MB
-> *Pᴀᴄᴋᴀɢᴇ :* ${data.datalist.list[0].package}
-> *Lᴀꜱᴛ Uᴘᴅᴀᴛᴇ :* ${data.datalist.list[0].updated}
-> *Dᴇᴠᴇʟᴏᴘᴇʀꜱ :* ${data.datalist.list[0].developer.name}
-> =======================`
+  APK: function (pushname, data, correctsize) {
+    const app = data.datalist.list[0];
+    return box("⬇️ APK DL", [
+      `👋 Hello *${pushname || "User"}*`,
+      `*\`name\`*: *${app.name}*`,
+      `*\`size\`*: *${correctsize}MB*`,
+      `*\`package\`*: *${app.package}*`,
+      `*\`last update\`*: *${app.updated}*`,
+      `*\`developer\`*: *${app.developer.name}*`,
+    ]);
   },
-  SPOTIFY: function(pushname,item,config) {
-    return `
-${this.BOTNAME || config.BOTNAME || "> [⚡ 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]"}
-> 𝙷𝚎𝚕𝚕𝚘 𝚃𝚑𝚎𝚛𝚎 *${pushname}*
-> [ S P O T I F Y  D L ]
-> =====================
-> *Title*  :${item.trackName}
-> *Artist* : ${item.artistName}
-> *Album*  : ${item.albumName}
-> *Duration*: ${item.duration}
-> *URL*: [Click Here](${item.externalUrl})
-> =====================`
+  SPOTIFY: function (pushname, item, config) {
+    return box("⬇️ SPOTIFY DL", [
+      `👋 Hello *${pushname || "User"}*`,
+      `*\`title\`*: *${item.trackName}*`,
+      `*\`artist\`*: *${item.artistName}*`,
+      `*\`album\`*: *${item.albumName}*`,
+      `*\`duration\`*: *${item.duration}*`,
+      `*\`url\`*: ${item.externalUrl}`,
+    ]);
   },
   //=================main==================================
-  BOTNAME: "> [⚡ 𝗫Ｐ𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]",
+  BOTNAME: `• *╭─「 🚀 ${BRAND} 」*`,
+  PRODUCT_NAME: PRODUCT,
+  SITE,
+  FOOTER: footer,
+  BOX: box,
+  COMMAND_LINE: function (pattern) {
+    return `*┆*✯ *\`${pattern}\`*`;
+  },
   BASEMSG: function (pushname, config) {
-    return `
-${this.BOTNAME || config.BOTNAME || "> [⚡ 𝗫Ｐ𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]"}
-> 𝙷𝚎𝚕𝚕𝚘 𝚃𝚑𝚎𝚛𝚎 *${pushname}*
-> ==========================`.trim();
+    return box(`🚀 ${BRAND}`, [
+      `👋 Hello *${pushname || "User"}*`,
+      `✅ Everything looks good.`,
+    ]);
   },
   OWNERMENU: "*𝗢𝗪𝗡𝗘𝗥 𝗠𝗘𝗡𝗨*",
   CONVERTMENU: "*𝗖𝗢𝗡𝗩𝗘𝗥𝗧 𝗠𝗘𝗡𝗨*",
@@ -114,82 +128,73 @@ ${this.BOTNAME || config.BOTNAME || "> [⚡ 𝗫Ｐ𝗥𝗢𝗩𝗘𝗥𝗖𝗘 
   ALIVEVOICE: "./src/media/Auto_voice/alive.aac",
   MOVIETITLE: "> *『⚡ 𝗫Ｐ𝗥Ｏ𝗩𝗘𝗥𝗖𝗘 𝑪𝑰𝑵𝑬𝑴𝑨 』*",
   ALIVEMSG: function (config, pushname, runtime) {
-    return `
-> [⚡ 𝗫Ｐ𝗥Ｏ𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]
-> 𝙷𝚎𝚕𝚕𝚘 𝚃𝚑𝚎𝚛𝚎 *${pushname}*
-> [  A  L  I  V  E  ]
-> =======================
-> ✘◍ 𝗜'𝗺 𝗔𝗹𝗶𝘃𝗲, 𝗧𝗵𝗮𝗻𝗸𝘀 𝗳𝗼𝗿 𝗔𝘀𝗸𝗶𝗻𝗴!
->>>>>>>>>>>>>>>>>>>>>>>>>
-┏━━━━❮𝑻𝑶𝑫𝑎𝒚❯━━━━
-┃ *${new Date().toLocaleDateString("en-GB", {timeZone: "Asia/Colombo",})}*
-┃ *${new Date().toLocaleTimeString("en-GB", {timeZone: "Asia/Colombo",})}*
-┗━━━━━━━━━━━━━━━
->>>>>>>>>>>>>>>>>>>>>>>>>
-┏━━━━❮𝗦𝘁𝗮𝘁𝘂𝘀 𝗗𝗲𝘁𝗮𝗶𝗹𝘀❯━━━
-┃𝙼𝚘𝚍𝚎 : ${config.MODE}
-┃𝚄𝚙𝚝𝚒𝚖𝚎 : ${runtime(process.uptime())}
-┃𝙼𝚎𝚖 : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require("os").totalmem / 1024 / 1024)}MB
-┗━━━━━━━━━━━━━━━
-> ======================`.trim();
-  },  SYSTEM: function (pushname, config, osInfo, runtime) {
-    return `${this.BASEMSG(pushname, config)}
-> [  S  Y  S  T  E  M  ]
-> [  S  T  A  T  U  S  ]
-> =======================
-> *UPTIME*: ${runtime(process.uptime())}
-> *RAM USAGE*: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(osInfo.totalmem / 1024 / 1024)}MB
-> *HOST NAME*: ${osInfo.hostname()}
-> *BOT OWNER*: ${config.OWNERNAME}
-> =======================`.trim();
+    return box("⚙️ SYSTEM STATUS", [
+      `👋 Hello *${pushname || "User"}*`,
+      `✅ Everything looks good.`,
+      `⏳ *\`runtime\`*: *${runtime(process.uptime())}*`,
+      `⚙️ *\`memory\`*: *${memoryUsage()}*`,
+      `*\`host\`*: *${hostName()}*`,
+      `👤 *\`owner\`*: *${ownerName(config)}*`,
+    ]);
+  },
+  SYSTEM: function (pushname, config, osInfo, runtime) {
+    return box("⚙️ SYSTEM STATUS", [
+      `👋 Hello *${pushname || "User"}*`,
+      `✅ Everything looks good.`,
+      `⏳ *\`runtime\`*: *${runtime(process.uptime())}*`,
+      `⚙️ *\`memory\`*: *${memoryUsage()}*`,
+      `*\`host\`*: *${hostName(osInfo)}*`,
+      `👤 *\`owner\`*: *${ownerName(config)}*`,
+    ]);
+  },
+  PING_CHECKING: "⏳ Checking response...",
+  PING: function (ping) {
+    return box("🚀 XPRO BOT SPEED", [`⏰ *\`response\`*: *${ping}ms*`]);
   },
   DEFAULT_HEADER: function (pushname, config) {
     return `${this.BASEMSG(pushname, config)}`.trim();
   },
   NO_WATERMARK: function (config) {
-    return `> *NO-WATERMARK*
-${this.BOTNAME || config.BOTNAME || "> [⚡ 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]"}`.trim();
+    return box("⬇️ DOWNLOAD", ["*`type`*: *NO-WATERMARK*"]);
   },
   WITH_WATERMARK: function (config) {
-    return `> *WITH-WATERMARK*
-${this.BOTNAME || config.BOTNAME || "> [⚡ 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]"}`.trim();
+    return box("⬇️ DOWNLOAD", ["*`type`*: *WITH-WATERMARK*"]);
   },
   DOWNLOAD_CAPTION: function (type, config) {
-    return `> *${type}*
-${this.BOTNAME || config.BOTNAME || "> [⚡ 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]"}`.trim();
+    return box("⬇️ DOWNLOAD", [`*\`type\`*: *${type}*`]);
   },
   POWERED_BY: function (config, suffix = "") {
-    return `> *⚖️ Powered By - : ©${this.BOTNAME || config.BOTNAME || "[⚡ 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]"}${suffix}*`;
+    return `${footer()}${suffix}`;
   },
   SIGNATURE: function (config) {
-    return `${this.BOTNAME || config.BOTNAME || "© 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡"}`;
+    return footer();
   },
   IMAGE_SEARCH_RESULT: function (imageUrl, index, pushname, config) {
-    return `> *Image ${index + 1} from your search!* 🌟\n> *Link:* ${imageUrl}\n${this.BOTNAME || config.BOTNAME || "> [⚡ 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]"}`;
+    return box("🔎 IMAGE SEARCH", [`*\`image\`*: *${index + 1}*`, `*\`link\`*: ${imageUrl}`]);
   },
   BING_IMAGE_RESULT: function (query, selectedImage, index, pushname, config) {
-    return `> *IMAGE ${index + 1} FROM YOUR SEARCH*\n\n> *Query:* ${query}\n> *Image Link:* ${selectedImage}\n${this.BOTNAME || config.BOTNAME || "> [⚡ 𝗫𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]"}`;
+    return box("🔎 BING IMAGE", [`*\`query\`*: *${query}*`, `*\`image\`*: *${index + 1}*`, `*\`link\`*: ${selectedImage}`]);
   },
   PINTEREST_IMAGE_RESULT: function (query, config) {
-    return `> *Pinterest Search Result* 🌟\n> *Query*: ${query}\n> *Source*: Pinterest\n${this.BOTNAME || config.BOTNAME || "> [⚡ 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]"}`;
+    return box("🔎 PINTEREST", [`*\`query\`*: *${query}*`, "*`source`*: *Pinterest*"]);
   },
   WALLPAPER_IMAGE_RESULT: function (query, title, config) {
-    return `> *Wallpaper Search Result* 🌟\n> *Query*: ${query}\n> *Title*: ${title}\n${this.BOTNAME || config.BOTNAME || "> [⚡ 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]"}`;
+    return box("🔎 WALLPAPER", [`*\`query\`*: *${query}*`, `*\`title\`*: *${title}*`]);
   },
   PASSWORD_MESSAGE: function (password, config) {
-    return `Please find your generated password below:\n> ${this.BOTNAME || config.BOTNAME || "⚡ 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡"}\n${password}`;
+    return box("🔐 PASSWORD", [`*\`password\`*: *${password}*`]);
   },
   REMOVE_BG_CAPTION: function (config) {
-    return `✨ *SCREEN SHOT GET SUCCESFULY!* ✨\n\n> *⚡ Powered by - ©${this.BOTNAME || config.BOTNAME || "[⚡ 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]"} 💚*`;
+    return box("🖼️ IMAGE TOOL", ["✅ Screenshot generated successfully."]);
   },
   FANCY_HEADER: function (config) {
-    return `Fancy Text Styles\n\nBY © ${this.BOTNAME || config.BOTNAME || "[⚡ 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]"}\nExample: .fancy 32\n\n`;
+    return box("🔤 FANCY TEXT", ["Example: .fancy 32"]);
   },
   HIJACT_STATUS: function (config) {
-    return `> GROUP HIJACT COMPLETE BY ${this.BOTNAME || config.BOTNAME || "[⚡ 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡]"}☣`;
+    return box("☣ GROUP HIJACK", ["✅ Completed successfully."]);
   },
   GROUP_SIGNATURE: function (config) {
-    return `\n\n${this.BOTNAME || config.BOTNAME || "© 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘 〽ᴅ ⚡"}`;
+    return `\n\n${footer()}`;
   },  //====================movie======================================
   GROUP: function (groupName, config,oce) {
     return `
@@ -259,6 +264,39 @@ ${this.BOTNAME || config.BOTNAME || "> [⚡ 𝗫𝗣𝗥𝗢𝗩𝗘𝗥𝗖𝗘
 > =====================
 > 📌 *Series Description:*  
 > ${oce}_${movieData.description || "No description available."}_${oce}`.trim();
+  },
+  ANIME_SEARCH_RESULTS: function (query, count, pushname, config) {
+    return `${this.BASEMSG(pushname, config)}
+> [  A N I M E  S E A R C H  ]
+> ==========================
+> 🔎 *Query:* ${query}
+> 📊 *Results:* ${count}
+> ==========================`.trim();
+  },
+  ANIME_MOVIE_INFO: function (title, type, count, pushname, config) {
+    return `${this.BASEMSG(pushname, config)}
+> [  A N I M E  ${type.toUpperCase()}  ]
+> ==========================
+> 🎬 *Title:* ${title}
+> 📊 *Available:* ${count}
+> ==========================`.trim();
+  },
+  ANIME_EPISODE_INFO: function (title, count, pushname, config) {
+    return `${this.BASEMSG(pushname, config)}
+> [  A N I M E  E P I S O D E  ]
+> ==========================
+> 📺 *Episode:* ${title}
+> 📊 *Qualities:* ${count}
+> ==========================`.trim();
+  },
+  ANIME_DOWNLOAD_INFO: function (title, quality, source, pushname, config) {
+    return `${this.BASEMSG(pushname, config)}
+> [  A N I M E  D O W N L O A D  ]
+> ==========================
+> 🎬 *Title:* ${title}
+> 📦 *Quality:* ${quality}
+> 📁 *Source:* ${source}
+> ==========================`.trim();
   },
   //=====================mvdl===========================================
   MVDL_SEARCH_PROMPT: "Give a movie or series name.",
