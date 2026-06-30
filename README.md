@@ -5,7 +5,7 @@
 # 👑 XPROVerce MD
 ### Advanced WhatsApp Multi-Device Bot
 
-[🌐 Home](http://xpro-verce.vercel.app/) •
+[🌐 Home](http://xpro-verce.site/) •
 [💻 GitHub](https://github.com/xproverce/XPROVerce-MD)
 
 </div>
@@ -165,7 +165,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [20.x]
 
     steps:
     - uses: actions/checkout@v4
@@ -176,7 +176,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - run: npm install
-    - run: npm test --if-present
+    - run: npm start
 ```
 
 ---
